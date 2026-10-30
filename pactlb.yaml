@@ -1,0 +1,48 @@
+packages_path: C:\cosmo\packages
+output: C:\cosmo\chains\pactlb
+
+theory:
+  camb:
+    extra_args:
+      lens_potential_accuracy: 1
+      AccuracyBoost: 1
+      lSampleBoost: 1
+      lAccuracyBoost: 1
+      halofit_version: mead2016
+      num_massive_neutrinos: 1
+      nnu: 3.044
+      theta_H0_range: [20, 100]
+
+likelihood:
+  planck_2018_lowl.TT: null
+  planck_2018_lowl.EE_sroll2: null
+  act_dr6_cmbonly.PlanckActCut: null
+  act_dr6_cmbonly.ACTDR6CMBonly: null
+  act_dr6_lenslike.ACTDR6LensLike:
+    lens_only: false
+    stop_at_error: true
+    lmax: 4000
+    variant: actplanck_baseline
+  bao.desi_dr2.desi_bao_all: null
+
+params:
+  logA: {prior: {min: 1.61, max: 3.91}, ref: {dist: norm, loc: 3.05, scale: 0.001}, proposal: 0.001, latex: '\log(10^{10} A_\mathrm{s})', drop: true}
+  As: {value: 'lambda logA: 1e-10*np.exp(logA)', latex: 'A_\mathrm{s}'}
+  ns: {prior: {min: 0.8, max: 1.2}, ref: {dist: norm, loc: 0.965, scale: 0.004}, proposal: 0.002, latex: 'n_\mathrm{s}'}
+  theta_MC_100: {prior: {min: 0.5, max: 10}, ref: {dist: norm, loc: 1.04109, scale: 0.0004}, proposal: 0.0002, latex: '100\theta_\mathrm{MC}', drop: true, renames: theta}
+  cosmomc_theta: {value: 'lambda theta_MC_100: 1.e-2*theta_MC_100', derived: false}
+  H0: {latex: 'H_0', min: 20, max: 100}
+  ombh2: {prior: {min: 0.005, max: 0.1}, ref: {dist: norm, loc: 0.0224, scale: 0.0001}, proposal: 0.0001, latex: '\Omega_\mathrm{b} h^2'}
+  omch2: {prior: {min: 0.001, max: 0.99}, ref: {dist: norm, loc: 0.120, scale: 0.001}, proposal: 0.0005, latex: '\Omega_\mathrm{c} h^2'}
+  omegam: {latex: '\Omega_\mathrm{m}'}
+  mnu: 0.06
+  omk: 0
+  tau: {prior: {min: 0.01, max: 0.8}, ref: {dist: norm, loc: 0.055, scale: 0.006}, proposal: 0.003, latex: '\tau_\mathrm{reio}'}
+  A_act: {prior: {dist: norm, loc: 1.0, scale: 0.003}, ref: {dist: norm, loc: 1.0, scale: 0.003}, proposal: 0.003}
+  P_act: {prior: {min: 0.5, max: 1.5}, ref: {dist: norm, loc: 1.0, scale: 0.01}, proposal: 0.01}
+sampler:
+  mcmc:
+    drag: false
+    proposal_scale: 1.9
+    Rminus1_stop: 0.02
+    max_tries: 100000

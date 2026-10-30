@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Scientific computing outputs
+*.log
+*.tmp
+*.aux
+*.out
+
+# MCMC chains and large generated data
+chains/
+output/
+outputs/
+
+# Generated plots
+plots/
+
+# Python distributions
+dist/
+build/
+*.egg-info/
